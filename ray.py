@@ -1,4 +1,5 @@
 import pygame, math
+from settings import *
 
 def normalizeAngle(angle):
     angle = angle % (2 * math.pi)
@@ -14,13 +15,40 @@ class Ray:
         self.distance = 0
 
     def cast(self):
-        ray_coords = [self.player.x, self.player.y]
-        while self.map.hasWall(ray_coords[0], ray_coords[1]) == False:
-            ray_coords[0] += 1
-            ray_coords[1] += 1
-            self.distance += 1
+        # Setup
+        ray_x = self.player.x
+        ray_y = self.player.y
+
+        ray_angle = normalizeAngle(self.rayAngle)
+
+        sin_a = math.sin(ray_angle)
+        cos_a = math.cos(ray_angle)
+
+        # Step size
+        step_size = 1
+        distance = 0
+
+        while True:
+            ray_x += cos_a * step_size
+            ray_y += sin_a * step_size
+            distance += step_size
+
+            map_x = int(ray_x / tilesize)
+            map_y = int(ray_y / tilesize)
+
+            # Stop if out of bounds
+            if map_x < 0 or map_x >= cols or map_y < 0 or map_y >= rows:
+                break
+
+            # Stop if hit a wall
+            if self.map.grid[map_y][map_x] == 1:
+                break
+
+        # Store ray hit location
+        self.hit_x = ray_x
+        self.hit_y = ray_y
+
 
 
     def render(self, screen):
-        # Temporary 
-        pygame.draw.line(screen, (255, 0, 0), (self.player.x, self.player.y), (self.player.x + math.cos(self.rayAngle) * self.distance, self.player.y + math.sin(self.rayAngle) * self.distance))
+        pygame.draw.line(screen, (255, 0, 0), (self.player.x, self.player.y), (self.hit_x, self.hit_y))
