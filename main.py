@@ -12,7 +12,7 @@ map = Map()
 player = Player()
 raycaster = Raycaster(player, map)
 
-delta_time = 0.1 #allows for frame indipendant motion
+delta_time = 0.1 #allows for frame independant motion
 clock = pygame.time.Clock()
 
 running = True
@@ -29,6 +29,7 @@ while running:
     screen.fill((0, 0, 0))
 
     player.update()
+    raycaster.update()
     raycaster.castAllRays()
 
     map.render(screen)

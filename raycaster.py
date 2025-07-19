@@ -7,6 +7,7 @@ class Raycaster:
         self.rays = []
         self.player = player
         self.map = map
+        self.type = 'line'
     
     def castAllRays(self):
         self.rays = []
@@ -18,8 +19,17 @@ class Raycaster:
 
             rayAngle += FOV / num_rays
 
+    
+    def update(self):
+        keys_pressed = pygame.key.get_pressed()
+        if keys_pressed[pygame.K_LSHIFT] and self.type == 'line':
+            self.type = 'trace'
+        elif keys_pressed[pygame.K_LSHIFT] and self.type == 'trace':
+            self.type = 'line'
+
 
     def renderAll(self, screen):
         for ray in self.rays:
-            ray.render(screen)
+            ray.render(screen, self.type)
+
 

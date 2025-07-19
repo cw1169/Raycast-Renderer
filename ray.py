@@ -50,5 +50,9 @@ class Ray:
 
 
 
-    def render(self, screen):
-        pygame.draw.line(screen, (255, 0, 0), (self.player.x, self.player.y), (self.hit_x, self.hit_y))
+    def render(self, screen, type):
+        if type == 'line':
+            pygame.draw.line(screen, (255, 0, 0), (self.player.x, self.player.y), (self.hit_x, self.hit_y))
+        elif type == 'trace':
+            pygame.draw.circle(screen, (255, 0, 0), (self.hit_x, self.hit_y), 4)
+
