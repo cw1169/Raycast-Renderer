@@ -1,11 +1,9 @@
 import pygame
 import math
 from settings import *
-from enum import Enum
-
 
 class Player:
-    def __init__(self):
+    def __init__(self, map):
         self.x = window_width / 2
         self.y = window_height / 2
         self.player_radius = 5
@@ -14,6 +12,7 @@ class Player:
         self.turn_direction = 0
         self.walk_direction = 0
         self.move_speed = 2.5
+        self.map = map
 
     def update(self):
         keys_pressed = pygame.key.get_pressed()
@@ -33,7 +32,20 @@ class Player:
             self.walk_direction = 0
 
         movestep = self.move_speed * self.walk_direction
-        self.rotation_angle +=  self.turn_direction * self.rotation_speed
+        next_x = self.x + math.cos(self.rotation_angle) * movestep
+        next_y = self.y + math.sin(self.rotation_angle) * movestep
+
+        grid_x = int(next_x / tilesize)
+        grid_y = int(next_y / tilesize)
+
+        if 0 <= grid_x < cols and 0 <= grid_y < rows:
+            if self.map.grid[grid_y][grid_x] == 0:
+                self.x = next_x
+                self.y = next_y
+        else:
+            pass
+
+        self.rotation_angle += self.turn_direction * self.rotation_speed
 
         self.x += math.cos(self.rotation_angle) * movestep
         self.y += math.sin(self.rotation_angle) * movestep

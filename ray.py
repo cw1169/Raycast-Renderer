@@ -12,7 +12,7 @@ class Ray:
         self.rayAngle = normalizeAngle(angle)
         self.player = player
         self.map = map
-        self.distance = 0
+        self.distance = 0.1
 
     def cast(self):
         # Setup
@@ -26,12 +26,11 @@ class Ray:
 
         # Step size
         step_size = 1
-        distance = 0
 
         while True:
             ray_x += cos_a * step_size
             ray_y += sin_a * step_size
-            distance += step_size
+            self.distance += step_size
 
             map_x = int(ray_x / tilesize)
             map_y = int(ray_y / tilesize)
@@ -49,10 +48,9 @@ class Ray:
         self.hit_y = ray_y
 
 
-
-    def render(self, screen, type):
-        if type == 'line':
-            pygame.draw.line(screen, (255, 0, 0), (self.player.x, self.player.y), (self.hit_x, self.hit_y))
-        elif type == 'trace':
-            pygame.draw.circle(screen, (255, 0, 0), (self.hit_x, self.hit_y), 4)
-
+    # Renders 2D Rays
+    # def render(self, screen, type):
+    #     if type == 'line':
+    #         pygame.draw.line(screen, (255, 0, 0), (self.player.x, self.player.y), (self.hit_x, self.hit_y))
+    #     elif type == 'trace':
+    #         pygame.draw.circle(screen, (255, 0, 0), (self.hit_x, self.hit_y), 4)

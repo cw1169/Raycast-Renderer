@@ -6,10 +6,10 @@ from raycaster import Raycaster
 
 pygame.init()
 
-screen = pygame.display.set_mode((window_width, window_height))
+screen3D = pygame.display.set_mode((window_width, window_height))
 
 map = Map()
-player = Player()
+player = Player(map)
 raycaster = Raycaster(player, map)
 
 delta_time = 0.1 #allows for frame independant motion
@@ -26,15 +26,13 @@ while running:
     delta_time = clock.tick(60) / 1000
     delta_time = max(0.001, min(0.1, delta_time))
 
-    screen.fill((0, 0, 0))
+    screen3D.fill((0, 0, 0))
 
     player.update()
     raycaster.update()
-    raycaster.castAllRays()
 
-    map.render(screen)
-    player.render(screen)
-    raycaster.renderAll(screen)
+    raycaster.castAllRays()
+    raycaster.renderAll(screen3D)
 
     pygame.display.update()
 

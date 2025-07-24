@@ -10,5 +10,7 @@ window_height = tilesize * rows
 
 FOV = 60 * (math.pi / 180) # Field of view in radians
 
-res = 6 # Resolution
+res = 4 # Resolution
 num_rays = window_width // res
+
+wall_height = 32

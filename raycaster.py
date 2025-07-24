@@ -29,7 +29,16 @@ class Raycaster:
 
 
     def renderAll(self, screen):
+        i = 1
         for ray in self.rays:
-            ray.render(screen, self.type)
+            # Render 3d walls
+            # (Projected Wall Height / distance to projection plain) = (wall height / distance to wall)
+            line_height = (wall_height / ray.distance) * 415
+            draw_begin = (window_height / 2) - (line_height / 2)
+            draw_end = line_height
+            pygame.draw.rect(screen, (255, 255, 255), (i*res, draw_begin, res, draw_end))
+            i += 1
 
 
+            # Calls function to render 2D Rays
+            # ray.render(screen, self.type)
